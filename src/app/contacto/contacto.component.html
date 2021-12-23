@@ -1,0 +1,15 @@
+
+{{title}}
+
+<div>
+    <p *ngIf="parametro">
+        Parametro insertado en la página de contacto: {{parametro}}
+    </p>
+</div>
+
+
+<div>
+    <p *ngIf="!parametro">
+       <button (click)="redirigir()">No contact found, go home</button>
+    </p>    
+</div>

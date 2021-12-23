@@ -1,0 +1,176 @@
+<h3>Tipos de neuronas</h3> 
+
+<!-- La directiva ngIF permite añadir condiciones a nuestros documetnos 
+        HTML basadas en propiedades de los propios componentes -->
+
+<div *ngIf="eventType==true">
+        <h4>Morphology:</h4>
+                <ul>
+                        <li>{{tipos[0].name}}</li>
+                        <li>{{tipos[1].name}}</li>
+                        <li>{{tipos[2].name}}</li>
+                </ul>
+        <button (click)="ChangeEvent(false)">Check function</button>   
+        <!-- Los eventos html se introducen entre parentésis y se iguala a la funcionalidad que queremos darle       -->
+</div>  
+
+<div *ngIf="eventType==false">
+        <h4>Activity:</h4>
+                <ul>
+                        <li>{{tipos[0].activity}}</li>
+                        <li>{{tipos[1].activity}}</li>
+                        <li>{{tipos[2].activity}}</li>
+                </ul>        
+         <button button (click)="ChangeEvent(true)">Check morphology</button>                  
+</div>
+
+ <hr/>
+  <!-- directiva ng for para hacer bucles       -->
+<!-- Importante: EL bucle tiene que ir en un unordered list tag -->
+
+<div>
+        <h4>List of Neurons:</h4>
+                <ul *ngFor="let neuron of tipos; index as i">
+                    <strong> Neuron {{i+1}}</strong>    
+                        <li>{{neuron.name}}</li>
+                        <li>{{neuron.morphology}}</li>
+                        <li>{{neuron.location}}</li>
+                        <li>{{neuron.density}}</li>
+                        <li>{{neuron.activity}}</li>
+                </ul>
+</div>  
+
+<hr/>
+<!-- directiva ngSwitch para hacer siwtch cases -->
+<!-- ngstyle para añadir todos los stiles css que quiera -->
+<div>
+        <h4>List of Neurons:</h4>
+                <ul [ngSwitch]="backColor">
+                        <li *ngSwitchCase="'red'" [ngStyle]="{'background':'red'}"> hola {{backColor}} </li>
+                        <li *ngSwitchCase="'blue'" [ngStyle]="{'background':'blue','padding':'30px'}"> hola {{backColor}} </li>
+                        <li>{{tipos[0].activity}}</li>
+                        <li>{{tipos[1].activity}}</li>
+                        <li>{{tipos[2].activity}}</li>
+                </ul>
+</div>  
+
+<hr/>
+
+                      <!-- ngModel -->
+<!-- 2 way data binding: Modificar un dato en la plantilla de tal manera que se modifica tambien en el modelo de datos.
+El input de la vista o un cambio en la vista genera un cambio en REACTIVO y al instante en el modelo de datos y viceversa
+.Es decir, componente y view están sincronizados. -->
+
+<!-- Fundamental importar el Formsmodule en app.module.ts -->
+
+<h3>Select classification attribute: </h3>
+<button>Select Attribute</button>
+<!-- Con el atributo ngModel le indico que propiedad quiero cambiar bidirecionalemnte -->
+<input type="text" [(ngModel)]="classification">
+     
+<!-- ngstyle más en profundidad, con style.<propiedad Css> 
+        Además puedo crear clases en mi style.css y llamarlas mediante el atributo [class.<nombre de clase>] importante acordarse 
+                de incluir el style.css en el html principal (index.html) o bien con la directiva [ngclass]=clases de interés --> 
+ <pre [style.border]="classification== 'morphology' ? '2px solid black': '2px solid green'"
+ [class.fondoazul]="classification== 'morphology'">{{classification}}</pre> <div *ngIf="classification=='morphology'">
+         
+        <h4>Morphology:</h4>
+                <ul>
+                        <li>{{tipos[0].name}}</li>
+                        <li>{{tipos[1].name}}</li>
+                        <li>{{tipos[2].name}}</li>
+                </ul>
+        <button (click)="ChangeEvent(false)">Check function</button>   
+        <!-- Los eventos html se introducen entre parentésis y se iguala a la funcionalidad que queremos darle       -->
+</div>  
+
+<div *ngIf="classification=='activity'">
+        <h4>Activity:</h4>
+                <ul>
+                        <li>{{tipos[0].activity}}</li>
+                        <li>{{tipos[1].activity}}</li>
+                        <li>{{tipos[2].activity}}</li>
+                </ul>        
+         <button button (click)="ChangeEvent(true)">Check morphology</button>                  
+</div>
+
+
+
+
+<hr/>
+<!---------------- FORMULARIO ------------------------------------>
+
+<h3>Hagamos un formulario</h3>
+<br>
+<form #formNeuron="ngForm" (ngSubmit)="onSubmit()"> <!-- lo primero es crear un formulario de tipo angular -->
+        <p>
+                <label>name: </label>
+                <!-- indico la propiedad a modidicar del componente
+                   y hago 2 way data binding con [(ngModel)] -->
+                <input type="text" name="name"  #name="ngModel" [(ngModel)]="neuron.name" required>  
+                <span *ngIf="name.touched && !name.valid">
+                        Neuron name is incorrect
+                </span>       
+        </p>
+        <p>
+                <label>morphology: </label>
+                <input type="text" name="morphology"  #morphology="ngModel" [(ngModel)]="neuron.morphology" required> 
+                <span *ngIf="morphology.touched && !morphology.valid">
+                        Invalid field
+                </span>     
+
+        </p>
+        <p>
+                <label>location: </label>
+                <input type="text" name="location"  #location="ngModel" [(ngModel)]="neuron.location" required>  
+                <span *ngIf="location.touched && !location.valid">
+                        Invalid field
+                </span>   
+
+        </p>
+        <p>
+                <label>density: </label>
+                <input type="text" name="density"  #density="ngModel" [(ngModel)]="neuron.density" required pattern="[0-9]+">  
+                <span *ngIf="density.touched && !density.valid">
+                        Invalid field
+                </span>   
+
+        </p>
+        <p>
+                <label>activity: </label>
+                <input type="text" name="activity"  #activity="ngModel" [(ngModel)]="neuron.activity" required>  
+
+        </p>
+        <input type="submit" value="save" [disabled]=!formNeuron.form.valid>
+</form>
+
+<div style="float:right">
+        <h4>Neuron list</h4>
+        <ul>
+                <li *ngFor="let neu of tipos">
+                        {{neu.name}}-{{neu.morphology}}-{{neu.location}}-{{neu.density}}-{{neu.activity}}
+                </li>
+        </ul>
+</div>
+
+
+<!-- Hagamos un post importando los modulos hhtp y hhtpresponse necesarios -->
+
+
+
+<br><br><br><br><br><br><br><br><br><br>
+<hr/>
+
+<h3>Post a https://jsonplaceholder.typicode.com/posts </h3>
+
+<div >
+        <h4>Object list</h4>
+        <ul *ngIf="listaPostPrueba">
+                <li *ngFor="let lista of listaPostPrueba">
+                        {{lista.id}}-{{lista.title}}
+                </li>
+        </ul>
+        <span *ngIf="!listaPostPrueba"> LOADING</span>
+</div>
+
+

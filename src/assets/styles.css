@@ -1,0 +1,25 @@
+.fondoazul{
+    background: blue
+
+}
+
+
+.nav{
+    margin: 0 auto;
+    padding: 0;
+    width: 75%;
+}
+
+.a  {
+    display: inline-block;
+    padding: 5px 10px;
+    color: #fff;
+    text-decoration: none;
+    border-right: 1px solid #fff;
+}
+
+
+.activado{
+    font-weight: bold;
+    background: yellow;
+}

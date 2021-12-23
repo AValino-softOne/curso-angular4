@@ -1,0 +1,35 @@
+<br/>
+<h2>{{title}}</h2>
+<br/>
+<!-- | es un pipes tuberías o filtras, funciones que sirver para hacer modicaciones
+directamente en la vista, es decir funciones que se hacen direcmente en la vista-->
+{{fecha|date:'dd/MM/yy'}} 
+<br/><br/>
+
+<!-- Se pueden concatenar varias pipes -->
+{{fecha|date:'fullDate'|uppercase}} 
+
+<br/><br/>
+<!-- Pipe customizada qu recibe dos argumentos, por defecto lo de la izq se convierte en el primer parametro -->
+{{'5' |conversor: '7'}}
+
+<br/>
+<br/>
+
+
+<input type="text" [(ngModel)]="neuronToSave">
+<button (click)="saveNeuron()">Add new neuron</button>
+
+<span>The new neuron to save is : {{neuronToSave}} </span>
+<h3> List of neurons</h3>
+<ul>
+    <li *ngFor="let neuron of neuronList; let i =index">
+        {{neuron}} 
+        <button (click)="deleteNeuron(i)">
+            Delete neuron
+        </button>
+    </li>
+</ul>
+
+
+
